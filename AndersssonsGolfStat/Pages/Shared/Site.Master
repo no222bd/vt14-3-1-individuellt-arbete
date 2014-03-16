@@ -1,0 +1,46 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="AndersssonsGolfStat.Pages.Shared.Site" ViewStateMode="Disabled" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <meta charset="utf-8" />
+    <link href="~/Content/reset.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <title></title>
+</head>
+<body>
+    <div id="container">
+        <header>
+            <h1>Anderssons GolfStat</h1>
+        </header>
+        
+        <nav>
+            <ul>
+                <li><a href="Default.aspx">Rundor & Statistik</a></li>
+                <li><a href="Courses.aspx">Banor</a></li>
+            </ul>
+        </nav>
+        
+        <div id="content">
+            <form id="form1" runat="server">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+            </form>
+        </div><!-- content -->
+
+        <footer>
+            <p>Nils-Jakob Olsson / no222bd / WP2012 Distans</p>
+        </footer>
+    </div><!-- container -->
+
+    <script type="text/javascript">
+        function closeMessage() {
+            var element = document.getElementById("MessagePanel");
+            element.parentNode.removeChild(element);
+            return false;
+        }
+    </script>
+</body>
+</html>
+

@@ -1,18 +1,16 @@
 ﻿using AndersssonsGolfStat.Model;
-using AndersssonsGolfStat.Model.DAL;//REMOVE
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.ModelBinding;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.ModelBinding;
 
 namespace AndersssonsGolfStat
 {
     public partial class Default : System.Web.UI.Page
     {
-
         private Service _service;
 
         private Service Service
@@ -31,25 +29,8 @@ namespace AndersssonsGolfStat
         }
 
         // ListView
-        public IEnumerable<AndersssonsGolfStat.Model.TableRow> TableRowListView_GetData()
-        {
-            var tablerows = Service.GetTableRows();
-            var stats = new Statistics(tablerows);
-            DisplayStatistics(stats);
-            return Service.GetTableRows();
-        }
-
-        //public void TableRowListView_UpdateItem(byte RoundID)
-        //{
-        //    var row = Service.GetTableRowByCourseId(RoundID);
-            
-        //    if (TryUpdateModel(row))
-        //    {
-        //        Service.UpdateTableRow(row);
-        //    }
-        //}
-
-        protected void TableRowListView_ItemCommand(object sender, ListViewCommandEventArgs e)
+        
+        protected void RoundDataListView_ItemCommand(object sender, ListViewCommandEventArgs e)
         {
             if (e.CommandName == "New")
             {
@@ -61,13 +42,77 @@ namespace AndersssonsGolfStat
             }
         }
 
+        // Insert FormView
+
+        public void InsertFormView_InsertItem(RoundData roundData)
+        {
+            Service.InsertRoundData(roundData);
+            ShowMessage("Insert success!");
+        }
+
+        // Update FormView
+
+        public void UpdateFormView_UpdateItem(int RoundID)
+        {
+            var row = Service.GetRoundDataByCourseId(RoundID);
+
+            if (TryUpdateModel(row))
+            {
+                Service.UpdateRoundData(row);
+                ShowMessage("Update success!");
+            }
+        }
+
+        // Update
+
+        public RoundData UpdateFormView_GetItem([QueryString("RID")]int RoundID)
+        {
+            return Service.GetRoundDataByCourseId(RoundID);
+        }
+
+        // Delete
+        public void UpdateFormView_DeleteItem(int roundid)
+        {
+            Service.DeleteRound(roundid);
+            ShowMessage("Delete success!");
+        }
+
+        private void ShowMessage(string msg)
+        {
+            MessageLiteral.Text = msg;
+            MessagePanel.Visible = true;
+        }
+
+        public IEnumerable<RoundData> RoundDataListView_GetDataPageWise(int maximumRows, int startRowIndex, out int totalRowCount)
+        {
+            var roundCollection = Service.GetRoundData();
+            var stats = new Statistics(roundCollection);
+            
+            DisplayStatistics(stats);
+            
+            return RoundDataPage(roundCollection, maximumRows, startRowIndex, out totalRowCount);
+
+            //var stats = new Statistics(Service.GetRoundData());
+            //DisplayStatistics(stats);
+            //return Service.GetRoundDataPageWise(maximumRows, startRowIndex, out totalRowCount);
+        }
+
+        public IEnumerable<RoundData> RoundDataPage( IEnumerable<RoundData> roundData,int maximumRows, int startRowIndex, out int totalRowCount)
+        {
+            totalRowCount = roundData.Count();
+
+            return roundData.Skip(startRowIndex).Take(maximumRows);
+            //roundData.Skip(startRowIndex);
+            //return roundData.Take(maximumRows);
+        }
+
         // Statistics
         public void DisplayStatistics(Statistics stats)
         {
             // Holes & Rounds
             RoundsLiteral.Text = stats.Rounds.ToString();
             HolesLiteral.Text = stats.Holes.ToString();
-            
+
             // Green in regulation
             GIRproLiteral.Text = stats.GIRpro.ToString("P0");
             GIRLiteral.Text = stats.GIR.ToString() + " av " + stats.Holes.ToString();
@@ -99,39 +144,6 @@ namespace AndersssonsGolfStat
             StrokesLiteral.Text = stats.Strokes.ToString();
             RoundsCountLiteral5.Text = stats.latestRounds.ToString();
             LatestBruttoavgLiteral.Text = stats.latestBruttoavg.ToString("F0");
-        }
-
-        // Insert FormView
-        public void InsertFormView_InsertItem(AndersssonsGolfStat.Model.TableRow tableRow)
-        {
-            Service.InsertTableRow(tableRow);
-        }
-
-        //public AndersssonsGolfStat.Model.TableRow InsertFormView_GetItem(byte RoundID)
-        //{
-        //    return Service.GetTableRowByCourseId(RoundID);
-        //}
-
-        // Update FormView
-        public void UpdateFormView_UpdateItem(int RoundID)
-        {
-            var row = Service.GetTableRowByCourseId(RoundID);
-
-            if (TryUpdateModel(row))
-            {
-                Service.UpdateTableRow(row);
-            }
-        }
-
-        public AndersssonsGolfStat.Model.TableRow UpdateFormView_GetItem([QueryString("RID")]int RoundID)
-        {
-            return Service.GetTableRowByCourseId(RoundID);
-        }
-
-        // The id parameter name should match the DataKeyNames value set on the control
-        public void UpdateFormView_DeleteItem(int roundid)
-        {
-            Service.DeleteRound(roundid);
         }
     }
 }

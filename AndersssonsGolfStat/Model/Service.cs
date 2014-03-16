@@ -10,7 +10,7 @@ namespace AndersssonsGolfStat.Model
     {
         private CourseDAL _courseDAL;
         private RoundDAL _roundDAL;
-        private TableRowDAL _tableRowDAL;
+        private RoundDataDAL _roundDataDAL;
 
         private CourseDAL CourseDAL
         {
@@ -22,9 +22,9 @@ namespace AndersssonsGolfStat.Model
             get { return _roundDAL ?? (_roundDAL = new RoundDAL()); }
         }
 
-        private TableRowDAL TableRowDAL
+        private RoundDataDAL RoundDataDAL
         {
-            get { return _tableRowDAL ?? (_tableRowDAL = new TableRowDAL()); }
+            get { return _roundDataDAL ?? (_roundDataDAL = new RoundDataDAL()); }
         }
         //------------------------------------------------------------------------------------------
         
@@ -35,24 +35,24 @@ namespace AndersssonsGolfStat.Model
         //    return RoundDAL.GetRounds();
         //}
 
-        public IEnumerable<TableRow> GetTableRows()
+        public IEnumerable<RoundData> GetRoundData()
         {
-            return TableRowDAL.GetTableRows();
+            return RoundDataDAL.GetRoundData();
         }
 
-        public TableRow GetTableRowByCourseId(int courseId)
+        public RoundData GetRoundDataByCourseId(int courseId)
         {
-            return TableRowDAL.GetTableRowByRoundId(courseId);
+            return  RoundDataDAL.GetRoundDataByRoundId(courseId);
         }
 
-        public void InsertTableRow(TableRow tableRow)
+        public void InsertRoundData(RoundData roundData)
         {
-            TableRowDAL.InsertTableRow(tableRow);
+            RoundDataDAL.InsertRoundData(roundData);
         }
 
-        public void UpdateTableRow(TableRow tableRow)
+        public void UpdateRoundData(RoundData roundData)
         {
-            TableRowDAL.UpdateTableRow(tableRow);
+            RoundDataDAL.UpdateRoundData(roundData);
         }
 
         public void DeleteRound(int roundId)
@@ -83,6 +83,11 @@ namespace AndersssonsGolfStat.Model
         public void DeleteCourse(int courseId)
         {
             CourseDAL.DeleteCourse(courseId);
+        }
+
+        public IEnumerable<RoundData> GetRoundDataPageWise(int maximumRows, int startRowIndex, out int totalRowCount)
+        {
+            return RoundDataDAL.GetRoundDataPageWise(maximumRows, startRowIndex, out totalRowCount);
         }
     }
 }

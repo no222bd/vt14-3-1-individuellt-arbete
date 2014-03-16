@@ -58,6 +58,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\reset.css" />
     <Content Include="Content\style.css" />
     <Content Include="Courses.aspx" />
     <Content Include="Default.aspx" />
@@ -84,14 +85,23 @@
     <Compile Include="Model\DAL\CourseDAL.cs" />
     <Compile Include="Model\DAL\DALBase.cs" />
     <Compile Include="Model\DAL\RoundDAL.cs" />
-    <Compile Include="Model\DAL\TableRowDAL.cs" />
+    <Compile Include="Model\DAL\RoundDataDAL.cs" />
     <Compile Include="Model\Round.cs" />
     <Compile Include="Model\Service.cs" />
     <Compile Include="Model\Statistics.cs" />
-    <Compile Include="Model\TableRow.cs" />
+    <Compile Include="Model\RoundData.cs" />
+    <Compile Include="Pages\Shared\Site.Master.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Shared\Site.Master.designer.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Pages\Shared\Site.Master" />
+    <None Include="Properties\PublishProfiles\noProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

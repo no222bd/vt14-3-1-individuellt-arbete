@@ -57,7 +57,7 @@ namespace AndersssonsGolfStat
             Service.DeleteCourse(CourseID);
         }
 
-        public AndersssonsGolfStat.Model.Course UpdateFormView_GetItem([QueryString("CID")]int CourseID)
+        public Course UpdateFormView_GetItem([QueryString("CID")]int CourseID)
         {
             return Service.GetCourseById(CourseID);
         }

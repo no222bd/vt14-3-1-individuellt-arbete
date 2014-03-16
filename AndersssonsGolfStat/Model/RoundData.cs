@@ -5,11 +5,11 @@ using System.Web;
 
 namespace AndersssonsGolfStat.Model
 {
-    public class TableRow
+    public class RoundData
     {
         public int RoundID { get; set; }
         public DateTime Date { get; set; }
-        public string Name { get; set; }   // Eller CourseID
+        public string Name { get; set; }
         public byte FIR { get; set; }
         public float FIRpro { get; set; }
         public byte GIR { get; set; }
@@ -20,5 +20,17 @@ namespace AndersssonsGolfStat.Model
         public byte Strokes { get; set; }
         public int Brutto { get; set; }
         public byte Fairways { get; set; }
+
+        public string DateString
+        {
+            get
+            {
+                return Date.ToShortDateString();
+            }
+            set
+            {
+                Date = DateTime.Parse(value);
+            }
+        }
     }
 }

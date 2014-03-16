@@ -9,7 +9,7 @@ namespace AndersssonsGolfStat.Model
     {
         public readonly int latestRounds = 3;
 
-        // Properties from TableRow object
+        // Properties from RoundData object
         public int Rounds { get; set; }
 
         public int GIR { get; set; }
@@ -49,21 +49,21 @@ namespace AndersssonsGolfStat.Model
         public float Bruttoavg { get { return (float)Brutto / Rounds ;} }
         public float latestBruttoavg { get { return (float)latestBrutto / latestRounds; } }
 
-        public Statistics(IEnumerable<TableRow> table)
+        public Statistics(IEnumerable<RoundData> roundData)
         {
-            Initialize(table);
+            Initialize(roundData);
         }
 
-        private void Initialize(IEnumerable<TableRow> table)
+        private void Initialize(IEnumerable<RoundData> roundData)
         {
             //Sorterar på datum i fallande ordning
-            var sortedTable = table.OrderByDescending(c => c.Date);
+            var sortedData = roundData.OrderByDescending(c => c.Date);
 
             //Kör igenom och lägg till värde till respektive egenskap
 
-            Rounds = table.Count();
+            Rounds = sortedData.Count();
             
-            foreach (var row in sortedTable)
+            foreach (var row in sortedData)
             {
                 GIR += row.GIR;
                 FIR += row.FIR;
@@ -74,9 +74,9 @@ namespace AndersssonsGolfStat.Model
                 Brutto += row.Brutto;
             }
 
-            var sortedTableTop = sortedTable.Take(latestRounds);
+            var sortedDataTop = sortedData.Take(latestRounds);
             
-            foreach (var row in sortedTableTop)
+            foreach (var row in sortedDataTop)
             {
                 latestGIR += row.GIR;
                 latestFIR += row.FIR;

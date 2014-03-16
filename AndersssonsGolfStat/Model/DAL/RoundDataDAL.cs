@@ -7,17 +7,17 @@ using System.Web;
 
 namespace AndersssonsGolfStat.Model.DAL
 {
-    public class TableRowDAL : DALBase
+    public class RoundDataDAL : DALBase
     {
-        public IEnumerable<TableRow> GetTableRows()
+        public IEnumerable<RoundData> GetRoundData()
         {
             using (var conn = CreateConnection())
             {
                 //try
                 //{
-                    var tableRows = new List<TableRow>(100);
+                    var roundData = new List<RoundData>(100);
 
-                    var cmd = new SqlCommand("app.usp_getTableRows", conn);
+                    var cmd = new SqlCommand("app.usp_getRoundData", conn);
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     conn.Open();
@@ -40,7 +40,7 @@ namespace AndersssonsGolfStat.Model.DAL
 
                         while (reader.Read())
                         {
-                            tableRows.Add(new TableRow
+                            roundData.Add(new RoundData
                             {
                                 RoundID = reader.GetInt32(roundIdIndex),
                                 Date = reader.GetDateTime(dateIndex),
@@ -59,9 +59,9 @@ namespace AndersssonsGolfStat.Model.DAL
                         }
                     }
 
-                    tableRows.TrimExcess();
+                    roundData.TrimExcess();
 
-                    return tableRows;
+                    return roundData;
                 //}
                 //catch
                 //{
@@ -70,13 +70,13 @@ namespace AndersssonsGolfStat.Model.DAL
             }
         }
 
-        public TableRow GetTableRowByRoundId(int roundId)
+        public RoundData GetRoundDataByRoundId(int roundId)
         {
             using (var conn = CreateConnection())
             {
                 try
                 {
-                    var cmd = new SqlCommand("app.usp_getTableRowByRoundId", conn);
+                    var cmd = new SqlCommand("app.usp_getRoundDataByRoundId", conn);
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.Parameters.Add("@RoundID", SqlDbType.Int).Value = roundId;
@@ -96,7 +96,7 @@ namespace AndersssonsGolfStat.Model.DAL
 
                         if (reader.Read())
                         {
-                            return new TableRow
+                            return new RoundData
                             {
                                 RoundID = reader.GetInt32(roundIdIndex),
                                 Date = reader.GetDateTime(dateIndex),
@@ -119,22 +119,22 @@ namespace AndersssonsGolfStat.Model.DAL
             }
         }
 
-        public void InsertTableRow(TableRow tableRow)
+        public void InsertRoundData(RoundData roundData)
         {
             using (var conn = CreateConnection())
             {
                 //try
                 //{
-                var cmd = new SqlCommand("[app].[usp_insertTableRow]", conn);
+                var cmd = new SqlCommand("[app].[usp_insertRoundData]", conn);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.Add("@Date", SqlDbType.Date).Value = tableRow.Date;
-                    cmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = tableRow.Name;
-                    cmd.Parameters.Add("@GIR", SqlDbType.TinyInt).Value = tableRow.GIR;
-                    cmd.Parameters.Add("@FIR", SqlDbType.TinyInt).Value = tableRow.FIR;
-                    cmd.Parameters.Add("@Putts", SqlDbType.TinyInt).Value = tableRow.Putts;
-                    cmd.Parameters.Add("@Penalties", SqlDbType.TinyInt).Value = tableRow.Penalties;
-                    cmd.Parameters.Add("@Strokes", SqlDbType.TinyInt).Value = tableRow.Strokes;
+                    cmd.Parameters.Add("@Date", SqlDbType.Date).Value = roundData.Date;
+                    cmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = roundData.Name;
+                    cmd.Parameters.Add("@GIR", SqlDbType.TinyInt).Value = roundData.GIR;
+                    cmd.Parameters.Add("@FIR", SqlDbType.TinyInt).Value = roundData.FIR;
+                    cmd.Parameters.Add("@Putts", SqlDbType.TinyInt).Value = roundData.Putts;
+                    cmd.Parameters.Add("@Penalties", SqlDbType.TinyInt).Value = roundData.Penalties;
+                    cmd.Parameters.Add("@Strokes", SqlDbType.TinyInt).Value = roundData.Strokes;
 
                    
 
@@ -150,23 +150,23 @@ namespace AndersssonsGolfStat.Model.DAL
             }
         }
 
-        public void UpdateTableRow(TableRow tableRow)
+        public void UpdateRoundData(RoundData roundData)
         {
             using (var conn = CreateConnection())
             {
                 try
                 {
-                    var cmd = new SqlCommand("app.usp_updateTableRow", conn);
+                    var cmd = new SqlCommand("app.usp_updateRoundData", conn);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.Add("@RoundID", SqlDbType.Int).Value = tableRow.RoundID;
-                    cmd.Parameters.Add("@Name", SqlDbType.VarChar, 30).Value = tableRow.Name;
-                    cmd.Parameters.Add("@Date", SqlDbType.Date).Value = tableRow.Date;
-                    cmd.Parameters.Add("@GIR", SqlDbType.TinyInt).Value = tableRow.GIR;
-                    cmd.Parameters.Add("@FIR", SqlDbType.TinyInt).Value = tableRow.FIR;
-                    cmd.Parameters.Add("@Putts", SqlDbType.TinyInt).Value = tableRow.Putts;
-                    cmd.Parameters.Add("@Penalties", SqlDbType.TinyInt).Value = tableRow.Penalties;
-                    cmd.Parameters.Add("@Strokes", SqlDbType.TinyInt).Value = tableRow.Strokes;
+                    cmd.Parameters.Add("@RoundID", SqlDbType.Int).Value = roundData.RoundID;
+                    cmd.Parameters.Add("@Name", SqlDbType.VarChar, 30).Value = roundData.Name;
+                    cmd.Parameters.Add("@Date", SqlDbType.Date).Value = roundData.Date;
+                    cmd.Parameters.Add("@GIR", SqlDbType.TinyInt).Value = roundData.GIR;
+                    cmd.Parameters.Add("@FIR", SqlDbType.TinyInt).Value = roundData.FIR;
+                    cmd.Parameters.Add("@Putts", SqlDbType.TinyInt).Value = roundData.Putts;
+                    cmd.Parameters.Add("@Penalties", SqlDbType.TinyInt).Value = roundData.Penalties;
+                    cmd.Parameters.Add("@Strokes", SqlDbType.TinyInt).Value = roundData.Strokes;
 
                     conn.Open();
 
@@ -179,6 +179,76 @@ namespace AndersssonsGolfStat.Model.DAL
             }
         }
 
-        
+
+
+        public IEnumerable<RoundData> GetRoundDataPageWise(int maximumRows, int startRowIndex, out int totalRowCount)
+        {
+            using (var conn = CreateConnection())
+            {
+                //try
+                //{
+                var roundData = new List<RoundData>(100);
+
+                var cmd = new SqlCommand("app.usp_getRoundDataPageWise", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("@StartRowIndex", SqlDbType.Int).Value = startRowIndex;
+                cmd.Parameters.Add("@PageSize", SqlDbType.Int).Value = maximumRows;
+                
+                cmd.Parameters.Add("@RowCount", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+
+                conn.Open();
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    var roundIdIndex = reader.GetOrdinal("RoundID");
+                    var dateIndex = reader.GetOrdinal("Date");
+                    var nameIndex = reader.GetOrdinal("Name");
+                    var girIndex = reader.GetOrdinal("GIR");
+                    var girProIndex = reader.GetOrdinal("GIRpro");
+                    var firIndex = reader.GetOrdinal("FIR");
+                    var firProIndex = reader.GetOrdinal("FIRpro");
+                    var puttsIndex = reader.GetOrdinal("Putts");
+                    var puttsAvgIndex = reader.GetOrdinal("Puttsavg");
+                    var penaltiesIndex = reader.GetOrdinal("Penalties");
+                    var strokesIndex = reader.GetOrdinal("Strokes");
+                    var bruttoIndex = reader.GetOrdinal("Brutto");
+                    var fairwaysIndex = reader.GetOrdinal("Fairways");
+
+                    while (reader.Read())
+                    {
+                        roundData.Add(new RoundData
+                        {
+                            RoundID = reader.GetInt32(roundIdIndex),
+                            Date = reader.GetDateTime(dateIndex),
+                            Name = reader.GetString(nameIndex),
+                            GIR = reader.GetByte(girIndex),
+                            GIRpro = reader.GetFloat(girProIndex),
+                            FIR = reader.GetByte(firIndex),
+                            FIRpro = reader.GetFloat(firProIndex),
+                            Putts = reader.GetByte(puttsIndex),
+                            Puttsavg = reader.GetFloat(puttsAvgIndex),
+                            Penalties = reader.GetByte(penaltiesIndex),
+                            Strokes = reader.GetByte(strokesIndex),
+                            Brutto = reader.GetInt32(bruttoIndex),
+                            Fairways = reader.GetByte(fairwaysIndex)
+                        });
+                    }
+                }
+
+                totalRowCount = (int)cmd.Parameters["@RowCount"].Value;
+
+                roundData.TrimExcess();
+
+                return roundData;
+                //}
+                //catch
+                //{
+                //    throw new ApplicationException("Ett fel har uppstått vid hämtning av tabellrader från databasen.");
+                //}
+            }
+        }
+
     }
 }

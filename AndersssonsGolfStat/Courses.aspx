@@ -8,8 +8,6 @@
     </asp:Panel>
     
     <asp:ValidationSummary ID="ValidationSummary1" runat="server" CssClass="validationMsg" />
-
-  
              
     <asp:Panel ID="InsertPanel" runat="server" Visible="false">
 
@@ -32,11 +30,19 @@
                     </tr>
                     <tr>
                         <td><asp:TextBox ID="Name" runat="server" Text='<%# BindItem.Name %>' MaxLength="30" /></td>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Ett namn måste anges." Display="None" ControlToValidate="Name" SetFocusOnError="True" />
+                        
                         <td><asp:TextBox ID="Par" runat="server" Text='<%# BindItem.Par %>' MaxLength="2" /></td>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Banans Par måste anges." Display="None" ControlToValidate="Par" SetFocusOnError="True" />
+                        <asp:RangeValidator ID="RangeValidator1" runat="server" ErrorMessage="Par måste vara i intervallet 60 - 80" Display="None" ControlToValidate="Par" MaximumValue="80" MinimumValue="60" SetFocusOnError="True" Type="Integer"></asp:RangeValidator>
+                        
                         <td><asp:TextBox ID="Fairways" runat="server" Text='<%# BindItem.Fairways %>' MaxLength="2" /></td>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ErrorMessage="Antal möjliga fairwayträffar måste anges." Display="None" ControlToValidate="Fairways" SetFocusOnError="True" />
+                        <asp:RangeValidator ID="RangeValidator2" runat="server" ErrorMessage="Antal fairways kan max vara 18" Display="None" ControlToValidate="Fairways" MaximumValue="18" MinimumValue="0" SetFocusOnError="True" Type="Integer"></asp:RangeValidator>
+                        
                         <td>
                             <asp:LinkButton ID="InsertLinkButton" runat="server" CommandName="Insert" Text="Spara" CssClass="appButton"/>
-                            <asp:LinkButton ID="CancelLinkButton" runat="server" CommandName="Cancel" Text="Avbryt" CssClass="appButton" />
+                            <asp:LinkButton ID="CancelLinkButton" runat="server" CommandName="Cancel" Text="Avbryt" CssClass="appButton" CausesValidation="False" />
                         </td>
                     </tr>
                 </table>
@@ -69,13 +75,19 @@
                     </tr>
                     <tr>
                         <td><asp:TextBox ID="Name" runat="server" Text='<%# BindItem.Name %>' MaxLength="30"/></td>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Ett namn måste anges." Display="None" ControlToValidate="Name" SetFocusOnError="True" />
+
                         <td><asp:TextBox ID="Par" runat="server" Text='<%# BindItem.Par %>' MaxLength="2" /></td>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Banans Par måste anges." Display="None" ControlToValidate="Par" SetFocusOnError="True" />
+                        <asp:RangeValidator ID="RangeValidator1" runat="server" ErrorMessage="Par måste vara i intervallet 60 - 80" Display="None" ControlToValidate="Par" MaximumValue="80" MinimumValue="60" SetFocusOnError="True" Type="Integer"></asp:RangeValidator>
+                        
                         <td><asp:TextBox ID="Fairways" runat="server" Text='<%# BindItem.Fairways %>' MaxLength="2" /></td>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ErrorMessage="Antal möjliga fairwayträffar måste anges." Display="None" ControlToValidate="Fairways" SetFocusOnError="True" />
+                        <asp:RangeValidator ID="RangeValidator2" runat="server" ErrorMessage="Antal fairways kan max vara 18" Display="None" ControlToValidate="Fairways" MaximumValue="18" MinimumValue="0" SetFocusOnError="True" Type="Integer"></asp:RangeValidator>
+                        
                         <td>
                             <asp:HyperLink ID="CancelHyperLink" runat="server" Text="Avbryt" NavigateUrl="~/Courses.aspx" CssClass="appButton" />
-                            <asp:LinkButton ID="DeleteLinkButton" runat="server" CommandName="Delete" Text="Ta bort" CssClass="appButton"
-                              OnClientClick='<%# String.Format("return confirm(\"Ta bort banan{0}?\")",Item.Name) %>'  
-                                />
+                            <asp:LinkButton ID="DeleteLinkButton" runat="server" CommandName="Delete" Text="Ta bort" CssClass="appButton" OnClientClick='<%# String.Format("return confirm(\"Ta bort banan{0}?\")",Item.Name) %>' CausesValidation="False" />
                             <asp:LinkButton ID="UpdateLinkButton" runat="server" CommandName="Update" Text="Spara" CssClass="appButton" />
                         </td>
                     </tr>
@@ -100,7 +112,7 @@
                     <th>Bana</th>
                     <th>Par</th>
                     <th>Fairways</th>
-                    <th><asp:LinkButton ID="NewLinkButton" runat="server" Text="Ny Bana" CommandName="New"  CssClass="newButton"/></th>
+                    <th><asp:LinkButton ID="NewLinkButton" runat="server" Text="Ny Bana" CommandName="New"  CssClass="newButton" CausesValidation="False" /></th>
                 </tr>
                 <asp:PlaceHolder ID="itemPlaceHolder" runat="server" />
             </table>
@@ -120,8 +132,8 @@
                 <td><%# Item.Name %></td>
                 <td><%# Item.Par %></td>
                 <td><%# Item.Fairways %></td>
-                <td><asp:LinkButton ID="UpdateLinkButton" runat="server" CommandName="Edit" PostBackUrl='<%# Eval("CourseID","~/Courses.aspx?CID={0}" ) %>' >
-                    <asp:Image ID="Image1" runat="server" ImageUrl="~/Content/Pics/edit.png" CssClass="editButton" />
+                <td><asp:LinkButton ID="UpdateLinkButton" runat="server" CommandName="Edit" PostBackUrl='<%# Eval("CourseID","~/Courses.aspx?CID={0}" ) %>' CausesValidation="False">
+                    <asp:Image ID="Image1" runat="server" ImageUrl="~/Content/Pic/edit.png" CssClass="editButton" />
                     </asp:LinkButton></td>
             </tr>
         </ItemTemplate>

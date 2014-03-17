@@ -57,7 +57,7 @@ namespace AndersssonsGolfStat.Model
         public byte Penalties { get; set; }
 
         [Required(ErrorMessage = "- Antalet Slag måste anges.")]
-        [RegularExpression(@"^([5-9][0-9])|([0-1]?[0-4][0-9])$", ErrorMessage = "- Antal Slag skall vara inom intervallet 50 - 149.")]
+        [RegularExpression(@"^([5-9][0-9])|([0-1][0-4][0-9])$", ErrorMessage = "- Antal Slag skall vara inom intervallet 50 - 149.")]
         public byte Strokes { get; set; }
         
         public int Brutto { get; set; }

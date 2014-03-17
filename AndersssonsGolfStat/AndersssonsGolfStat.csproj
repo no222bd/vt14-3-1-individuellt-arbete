@@ -58,10 +58,12 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Pic\edit.png" />
     <Content Include="Content\reset.css" />
     <Content Include="Content\style.css" />
     <Content Include="Courses.aspx" />
     <Content Include="Default.aspx" />
+    <Content Include="Error.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -80,6 +82,13 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Error.aspx.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Error.aspx.designer.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
     </Compile>
     <Compile Include="Model\Course.cs" />
     <Compile Include="Model\DAL\CourseDAL.cs" />

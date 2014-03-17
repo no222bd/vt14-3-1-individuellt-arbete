@@ -36,19 +36,37 @@
                     </tr>
                     <tr>
                         <td><asp:TextBox ID="Date" runat="server" Text='<%# BindItem.DateString %>' MaxLength="10" /></td>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Ett Datum måste anges." Display="None" ControlToValidate="Date" SetFocusOnError="True"></asp:RequiredFieldValidator>
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ErrorMessage="Datum skall anges i formatet ÅÅÅÅ-MM-DD." Display="None" ControlToValidate="Date" SetFocusOnError="True" ValidationExpression="^(19|20)[0-9][0-9]-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$"></asp:RegularExpressionValidator>
+
                         <td><asp:DropDownList ID="NameDropDownList" runat="server"
                                 ItemType="AndersssonsGolfStat.Model.Course"
                                 SelectMethod="CoursesListView_GetData"
                                 DataTextField="Name"
                                 SelectedValue='<%# BindItem.Name %>' /></td>
+
                         <td><asp:TextBox ID="FIR" runat="server" Text='<%# BindItem.FIR %>' MaxLength="2" /></td>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Antalet FairwayInRegulation måste anges." Display="None" ControlToValidate="FIR" SetFocusOnError="True"></asp:RequiredFieldValidator>
+                        <asp:RangeValidator ID="RangeValidator1" runat="server" ErrorMessage="Antal FairwayInRegulation kan max vara 18." Display="None" ControlToValidate="FIR" MaximumValue="18" MinimumValue="0" SetFocusOnError="True" Type="Integer"></asp:RangeValidator>
+                        
                         <td><asp:TextBox ID="GIR" runat="server" Text='<%# BindItem.GIR %>' MaxLength="2" /></td>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ErrorMessage="Antalet GreenInRegulation måste anges." Display="None" ControlToValidate="GIR" SetFocusOnError="True"></asp:RequiredFieldValidator>
+                        <asp:RangeValidator ID="RangeValidator2" runat="server" ErrorMessage="Antal GreenInRegulation kan max vara 18." Display="None" ControlToValidate="GIR" MaximumValue="18" MinimumValue="0" SetFocusOnError="True" Type="Integer"></asp:RangeValidator>
+
                         <td><asp:TextBox ID="Putts" runat="server" Text='<%# BindItem.Putts %>' MaxLength="2" /></td>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ErrorMessage="Antalet Puttar måste anges." Display="None" ControlToValidate="Putts" SetFocusOnError="True"></asp:RequiredFieldValidator>
+                        <asp:RangeValidator ID="RangeValidator3" runat="server" ErrorMessage="Antal Puttar kan max vara 99." Display="None" ControlToValidate="Putts" MaximumValue="99" MinimumValue="0" SetFocusOnError="True" Type="Integer"></asp:RangeValidator>
+
                         <td><asp:TextBox ID="Penalties" runat="server" Text='<%# BindItem.Penalties %>' MaxLength="2" /></td>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ErrorMessage="Antalet Plikt måste anges." Display="None" ControlToValidate="Penalties" SetFocusOnError="True"></asp:RequiredFieldValidator>
+                        <asp:RangeValidator ID="RangeValidator4" runat="server" ErrorMessage="Antal Plikt kan max vara 99." Display="None" ControlToValidate="Penalties" MaximumValue="99" MinimumValue="0" SetFocusOnError="True" Type="Integer"></asp:RangeValidator>
+
                         <td><asp:TextBox ID="Strokes" runat="server" Text='<%# BindItem.Strokes %>'  MaxLength="3"/></td>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" ErrorMessage="Antalet Slag måste anges." Display="None" ControlToValidate="Strokes" SetFocusOnError="True"></asp:RequiredFieldValidator>
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ErrorMessage="Antal Slag skall vara inom intervallet 50 - 149." Display="None" ValidationExpression="^([5-9][0-9])|([0-1][0-4][0-9])$" SetFocusOnError="True" ControlToValidate="Strokes"></asp:RegularExpressionValidator>
                         <td>
                             <asp:LinkButton ID="InsertLinkButton" runat="server" CommandName="Insert" Text="Spara" CssClass="appButton" />
-                            <asp:LinkButton ID="CancelLinkButton" runat="server" CommandName="Cancel" Text="Avbryt"  CssClass="appButton" />
+                            <asp:LinkButton ID="CancelLinkButton" runat="server" CommandName="Cancel" Text="Avbryt"  CssClass="appButton" CausesValidation="False" />
                         </td>
                     </tr>
                 </table>
@@ -85,20 +103,39 @@
                     </tr>
                     <tr>
                         <td><asp:TextBox ID="Date" runat="server" Text='<%# BindItem.DateString %>' MaxLength="10" /></td>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Ett Datum måste anges." Display="None" ControlToValidate="Date" SetFocusOnError="True"></asp:RequiredFieldValidator>
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ErrorMessage="Datum skall anges i formatet ÅÅÅÅ-MM-DD." Display="None" ControlToValidate="Date" SetFocusOnError="True" ValidationExpression="^(19|20)[0-9][0-9]-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$"></asp:RegularExpressionValidator>
+
                         <td><asp:DropDownList ID="NameDropDownList" runat="server"
                                 ItemType="AndersssonsGolfStat.Model.Course"
                                 SelectMethod="CoursesListView_GetData"
                                 DataTextField="Name"
                                 SelectedValue='<%# BindItem.Name %>' /></td>
+
                         <td><asp:TextBox ID="FIR" runat="server" Text='<%# BindItem.FIR %>' MaxLength="2" /></td>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Antalet FairwayInRegulation måste anges." Display="None" ControlToValidate="FIR" SetFocusOnError="True"></asp:RequiredFieldValidator>
+                        <asp:RangeValidator ID="RangeValidator1" runat="server" ErrorMessage="Antal FairwayInRegulation kan max vara 18." Display="None" ControlToValidate="FIR" MaximumValue="18" MinimumValue="0" SetFocusOnError="True" Type="Integer"></asp:RangeValidator>
+                       
                         <td><asp:TextBox ID="GIR" runat="server" Text='<%# BindItem.GIR %>' MaxLength="2" /></td>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ErrorMessage="Antalet GreenInRegulation måste anges." Display="None" ControlToValidate="GIR" SetFocusOnError="True"></asp:RequiredFieldValidator>
+                        <asp:RangeValidator ID="RangeValidator2" runat="server" ErrorMessage="Antal GreenInRegulation kan max vara 18." Display="None" ControlToValidate="GIR" MaximumValue="18" MinimumValue="0" SetFocusOnError="True" Type="Integer"></asp:RangeValidator>
+
                         <td><asp:TextBox ID="Putts" runat="server" Text='<%# BindItem.Putts %>' MaxLength="2" /></td>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ErrorMessage="Antalet Puttar måste anges." Display="None" ControlToValidate="Putts" SetFocusOnError="True"></asp:RequiredFieldValidator>
+                        <asp:RangeValidator ID="RangeValidator3" runat="server" ErrorMessage="Antal Puttar kan max vara 99." Display="None" ControlToValidate="Putts" MaximumValue="99" MinimumValue="0" SetFocusOnError="True" Type="Integer"></asp:RangeValidator>
+
                         <td><asp:TextBox ID="Penalties" runat="server" Text='<%# BindItem.Penalties %>' MaxLength="2" /></td>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ErrorMessage="Antalet Plikt måste anges." Display="None" ControlToValidate="Penalties" SetFocusOnError="True"></asp:RequiredFieldValidator>
+                        <asp:RangeValidator ID="RangeValidator4" runat="server" ErrorMessage="Antal Plikt kan max vara 99." Display="None" ControlToValidate="Penalties" MaximumValue="99" MinimumValue="0" SetFocusOnError="True" Type="Integer"></asp:RangeValidator>
+
                         <td><asp:TextBox ID="Strokes" runat="server" Text='<%# BindItem.Strokes %>' MaxLength="3" /></td>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" ErrorMessage="Antalet Slag måste anges." Display="None" ControlToValidate="Strokes" SetFocusOnError="True"></asp:RequiredFieldValidator>
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ErrorMessage="Antal Slag skall vara inom intervallet 50 - 149." Display="None" ValidationExpression="^([5-9][0-9])|([0-1][0-4][0-9])$" SetFocusOnError="True" ControlToValidate="Strokes"></asp:RegularExpressionValidator>
+                        
                         <td><asp:HyperLink ID="CancelHyperLink" runat="server" Text="Avbryt" NavigateUrl="~/Default.aspx" CssClass="appButton" />
                             <asp:LinkButton ID="UpdateHyperLink" runat="server" CommandName="Update" Text="Spara" CssClass="appButton" />
                             <asp:LinkButton ID="DeleteLinkButton" runat="server" CommandName="Delete" Text="Delete" CssClass="appButton" 
-                                OnClientClick='<%# String.Format("return confirm(\"Ta bort rundan spelad på {0} den {1}?\")",Item.Name, Item.Date.ToShortDateString()) %>' /></td>
+                                OnClientClick='<%# String.Format("return confirm(\"Ta bort rundan spelad på {0} den {1}?\")",Item.Name, Item.Date.ToShortDateString()) %>' CausesValidation="False" /></td>
                     </tr>
                 </table>
             </EditItemTemplate>
@@ -131,7 +168,7 @@
                         <th>Plikt</th>
                         <th>Slag</th>
                         <th>Brutto</th>
-                        <th><asp:LinkButton ID="NewLinkButton" runat="server" CommandName="New" Text="Ny runda" CssClass="newButton" /></th>
+                        <th><asp:LinkButton ID="NewLinkButton" runat="server" CommandName="New" Text="Ny runda" CssClass="newButton" CausesValidation="False" /></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -162,8 +199,8 @@
                 <td><%# Item.Penalties %></td>
                 <td><%# Item.Strokes %></td>
                 <td><%# Item.Brutto %></td>
-                <td><asp:LinkButton ID="EditLinkButton" runat="server" CommandName="Edit" PostBackUrl='<%# Eval("RoundID","~/Default.aspx?RID={0}" ) %>'>
-                        <asp:Image ID="Image1" runat="server" ImageUrl="~/Content/Pics/edit.png" CssClass="editButton" />
+                <td><asp:LinkButton ID="EditLinkButton" runat="server" CommandName="Edit" PostBackUrl='<%# Eval("RoundID","~/Default.aspx?RID={0}" ) %>' CausesValidation="False">
+                        <asp:Image ID="Image1" runat="server" ImageUrl="~/Content/Pic/edit.png" CssClass="editButton" />
                     </asp:LinkButton></td>
             </tr>
         </ItemTemplate>

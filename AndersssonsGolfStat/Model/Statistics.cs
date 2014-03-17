@@ -7,6 +7,7 @@ namespace AndersssonsGolfStat.Model
 {
     public class Statistics
     {
+        // Ingen validering p.g.a. ingen data matas in av användaren
         public readonly int latestRounds = 3;
 
         // Properties from RoundData object

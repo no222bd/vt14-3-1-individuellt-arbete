@@ -20,62 +20,131 @@ namespace AndersssonsGolfStat
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            //if (Session["Insert"] as bool? == true)
+            //{
+            //    Session.Clear();
+            //    InsertRoundDiv.Visible = true;
+                
+            //}
 
+            //if (Session["Update"] as bool? == true)
+            //    UpdateRoundDiv.Visible = true;
         }
+
+        // Hämta lista med banor för att populera drop-down menyn
 
         public IEnumerable<Course> CoursesListView_GetData()
         {
-            return Service.GetCourses();
+            try
+            {
+                return Service.GetCourses();
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError(String.Empty, ex);
+                return null;
+            }
         }
 
-        // ListView
-        
+        // Visar update- eller insertformuläret beroende på vilken knapp som klickats på.
         protected void RoundDataListView_ItemCommand(object sender, ListViewCommandEventArgs e)
         {
             if (e.CommandName == "New")
             {
+              
                 InsertRoundDiv.Visible = true;
+                
+
             }
             else if (e.CommandName == "Edit")
             {
+                
                 UpdateRoundDiv.Visible = true;
+                
+
             }
         }
 
-        // Insert FormView
-
+        // Validerar och skickar sedan nyskapad runda till databasen via en metod i Service-klassen.
         public void InsertFormView_InsertItem(RoundData roundData)
         {
-            Service.InsertRoundData(roundData);
-            ShowMessage("Insert success!");
+            Session.Remove("Insert");
+            if (ModelState.IsValid)
+            {
+                
+                try
+                {
+                    Service.InsertRoundData(roundData);
+                    
+                    ShowMessage(String.Format("Sparandet av rundan spelad den {0} på {1} lyckades.", roundData.Date.ToShortDateString(), roundData.Name));
+                    
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(String.Empty, ex);
+                }
+            }
         }
 
-        // Update FormView
+        // Validerar och skickar uppdaterad runda till databasen via en metod i Service-klassen.
 
         public void UpdateFormView_UpdateItem(int RoundID)
         {
-            var row = Service.GetRoundDataByCourseId(RoundID);
-
-            if (TryUpdateModel(row))
+            try
             {
-                Service.UpdateRoundData(row);
-                ShowMessage("Update success!");
+                var roundData = Service.GetRoundDataByRoundId(RoundID);
+
+
+                if (roundData == null)
+                {
+                    ModelState.AddModelError(String.Empty, String.Format("Rundan med ID:et {0} hittades inte i databasen.", RoundID));
+                    return;
+                }
+
+                if (TryUpdateModel(roundData))
+                {
+                    Service.UpdateRoundData(roundData);
+                    ShowMessage(String.Format("Uppdaterandet av rundan spelad den {0} på {1} lyckades.", roundData.Date.ToShortDateString(), roundData.Name));
+                }
             }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(String.Empty, ex);
+            }
+
         }
 
-        // Update
+        // Hämtar en runda från databasen för att fylla fälten i update-formuläret.
 
         public RoundData UpdateFormView_GetItem([QueryString("RID")]int RoundID)
         {
-            return Service.GetRoundDataByCourseId(RoundID);
+            try
+            {
+                return Service.GetRoundDataByRoundId(RoundID);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(String.Empty, ex);
+                return null;
+            }
         }
 
-        // Delete
+        // Tar bort en runda från databasen via en metod i Service-klassen.
+
         public void UpdateFormView_DeleteItem(int roundid)
         {
-            Service.DeleteRound(roundid);
-            ShowMessage("Delete success!");
+            try
+            {
+                Service.DeleteRound(roundid);
+                ShowMessage("Borttagandet av rundan lyckades.");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(String.Empty, ex);
+            }
         }
+
+        // Visar meddelande efter lyckad operation
 
         private void ShowMessage(string msg)
         {
@@ -83,30 +152,28 @@ namespace AndersssonsGolfStat
             MessagePanel.Visible = true;
         }
 
+        // Hämtar alla rundor från databasen för att beräkna statistik samt delar sedan upp listan av objekt för att visas sidvis.
+
         public IEnumerable<RoundData> RoundDataListView_GetDataPageWise(int maximumRows, int startRowIndex, out int totalRowCount)
         {
             var roundCollection = Service.GetRoundData();
             var stats = new Statistics(roundCollection);
-            
-            DisplayStatistics(stats);
-            
-            return RoundDataPage(roundCollection, maximumRows, startRowIndex, out totalRowCount);
 
-            //var stats = new Statistics(Service.GetRoundData());
-            //DisplayStatistics(stats);
-            //return Service.GetRoundDataPageWise(maximumRows, startRowIndex, out totalRowCount);
+            DisplayStatistics(stats);
+
+            return RoundDataPage(roundCollection, maximumRows, startRowIndex, out totalRowCount);
         }
 
+        // Metod för att hämta delar av listan av RoundData
         public IEnumerable<RoundData> RoundDataPage( IEnumerable<RoundData> roundData,int maximumRows, int startRowIndex, out int totalRowCount)
         {
             totalRowCount = roundData.Count();
 
             return roundData.Skip(startRowIndex).Take(maximumRows);
-            //roundData.Skip(startRowIndex);
-            //return roundData.Take(maximumRows);
         }
 
-        // Statistics
+        // Visar data från klassen Statistics
+
         public void DisplayStatistics(Statistics stats)
         {
             // Holes & Rounds
@@ -144,6 +211,18 @@ namespace AndersssonsGolfStat
             StrokesLiteral.Text = stats.Strokes.ToString();
             RoundsCountLiteral5.Text = stats.latestRounds.ToString();
             LatestBruttoavgLiteral.Text = stats.latestBruttoavg.ToString("F0");
+        }
+
+        protected void InsertFormView_ItemCommand(object sender, FormViewCommandEventArgs e)
+        {
+            if(e.CommandName == "Insert")
+                InsertRoundDiv.Visible = true;
+        }
+
+        protected void UpdateFormView_ItemCommand(object sender, FormViewCommandEventArgs e)
+        {
+            if (e.CommandName == "Update")
+                UpdateRoundDiv.Visible = true;
         }
     }
 }

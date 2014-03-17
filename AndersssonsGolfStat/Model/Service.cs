@@ -1,6 +1,7 @@
 ﻿using AndersssonsGolfStat.Model.DAL;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -28,38 +29,54 @@ namespace AndersssonsGolfStat.Model
         }
         //------------------------------------------------------------------------------------------
         
-        
-
-        //public IEnumerable<Round> GetRounds()
-        //{
-        //    return RoundDAL.GetRounds();
-        //}
-
         public IEnumerable<RoundData> GetRoundData()
         {
             return RoundDataDAL.GetRoundData();
         }
 
-        public RoundData GetRoundDataByCourseId(int courseId)
+        public RoundData GetRoundDataByRoundId(int roundId)
         {
-            return  RoundDataDAL.GetRoundDataByRoundId(courseId);
+            return  RoundDataDAL.GetRoundDataByRoundId(roundId);
         }
 
         public void InsertRoundData(RoundData roundData)
         {
+            var validationContext = new ValidationContext(roundData);
+            var validationResults = new List<ValidationResult>();
+
+            if (!Validator.TryValidateObject(roundData, validationContext, validationResults, true))
+            {
+                var ex = new ValidationException();
+                ex.Data.Add("ValidationResults", validationResults);
+                throw ex;
+            }
+
             RoundDataDAL.InsertRoundData(roundData);
         }
 
         public void UpdateRoundData(RoundData roundData)
         {
+            var validationContext = new ValidationContext(roundData);
+            var validationResults = new List<ValidationResult>();
+
+            if (!Validator.TryValidateObject(roundData, validationContext, validationResults, true))
+            {
+                var ex = new ValidationException();
+                ex.Data.Add("ValidationResults", validationResults);
+                throw ex;
+            }
+            
             RoundDataDAL.UpdateRoundData(roundData);
         }
 
+        // Round
         public void DeleteRound(int roundId)
         {
             RoundDAL.DeleteRound(roundId);
         }
 
+
+        // Course
         public IEnumerable<Course> GetCourses()
         {
             return CourseDAL.GetCourses();
@@ -72,22 +89,37 @@ namespace AndersssonsGolfStat.Model
 
         public void InsertCourse(Course course)
         {
+            var validationContext = new ValidationContext(course);
+            var validationResults = new List<ValidationResult>();
+
+            if (!Validator.TryValidateObject(course, validationContext, validationResults, true))
+            {
+                var ex = new ValidationException();
+                ex.Data.Add("ValidationResults", validationResults);
+                throw ex;
+            }
+
             CourseDAL.InsertCourse(course);
         }
 
         public void UpdateCourse(Course course)
         {
+            var validationContext = new ValidationContext(course);
+            var validationResults = new List<ValidationResult>();
+
+            if (!Validator.TryValidateObject(course, validationContext, validationResults, true))
+            {
+                var ex = new ValidationException();
+                ex.Data.Add("ValidationResults", validationResults);
+                throw ex;
+            }
+
             CourseDAL.UpdateCourse(course);
         }
 
         public void DeleteCourse(int courseId)
         {
             CourseDAL.DeleteCourse(courseId);
-        }
-
-        public IEnumerable<RoundData> GetRoundDataPageWise(int maximumRows, int startRowIndex, out int totalRowCount)
-        {
-            return RoundDataDAL.GetRoundDataPageWise(maximumRows, startRowIndex, out totalRowCount);
         }
     }
 }

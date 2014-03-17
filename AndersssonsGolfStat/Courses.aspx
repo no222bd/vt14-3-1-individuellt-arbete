@@ -1,6 +1,13 @@
 ﻿<%@ Page Title="Anderssons GolfStat | Banor" Language="C#" MasterPageFile="~/Pages/Shared/Site.Master" AutoEventWireup="true" CodeBehind="Courses.aspx.cs" Inherits="AndersssonsGolfStat.Courses" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    
+    <asp:Panel ID="MessagePanel" runat="server" Visible="false" CssClass="msgPanel">
+        <p><asp:Literal ID="MessageLiteral" runat="server" /></p>
+        <asp:LinkButton ID="CloseButton" runat="server"  OnClientClick="return closeMessage();">[X]</asp:LinkButton>
+    </asp:Panel>
+    
+    <asp:ValidationSummary ID="ValidationSummary1" runat="server" CssClass="validationMsg" />
 
     <h2>Registrerade banor</h2>
              

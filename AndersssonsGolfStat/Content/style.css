@@ -32,19 +32,19 @@ footer {
     font-size: 0.8em;
 }
 
-ul {
+nav ul {
     background-color: black;
     padding: 0.4em 0;
     font-size: 1.1em;
     overflow:auto;
 }
 
-li {
+nav li {
     float:left;
     padding: 0 0.5em;
 }
 
-li:first-child {
+nav li:first-child {
     border-right: 2px solid white;
 }
 
@@ -102,21 +102,9 @@ div.statBox span:nth-child(2n+2) {
 }
 
 
-input {
-    width: 75px;
-}
-
-
 #TableRowListView_NewRoundLinkButton {
 padding: 1em;
 border: 1px solid black;
-}
-#InsertRoundDiv {
-    background-color: #ff6a00;
-   }
-
-#ContentPlaceHolder1_UpdateRoundDiv {
-    background-color: #0094ff;
 }
 
 
@@ -180,7 +168,7 @@ tbody tr {
     border-bottom:1px solid  #ccc;
 }
 
-tbody tr:hover {
+#RoundDataTable tbody tr:hover {
     background-color:lightgreen;
 }
 
@@ -214,4 +202,85 @@ tbody tr:hover {
     background-color: lightgreen;
     color: darkgreen;
     
+}
+
+
+/* ValidationMessage & StatusMessage */
+
+.validationMsg, .msgPanel {
+margin: 0.8em 0;
+color:white;
+background-color: #d14848;
+border: 2px solid #6f0d0d;
+padding: 1em;
+font-weight:700;
+}
+
+.validationMsg li{
+padding:0.25em 0;
+}
+
+.msgPanel {
+    background-color: green;
+    border: 2px solid #143c16;
+    overflow: auto;
+}
+
+.msgPanel a {
+    float: right;
+}
+
+.msgPanel p {
+    float: left;
+}
+
+.inputTable {
+    border: 1px solid #ccc;
+    background-color: lightgreen;
+
+
+}
+
+
+
+.inputTable input{
+    width:25px;
+}
+
+.inputTable td{
+    /*padding-left:0;
+    padding-right:0;*/
+}
+.inputTable td:nth-of-type(1) input{
+    width:75px;
+}
+
+.inputTable select {
+    width:300px;
+}
+
+.inputTable th:nth-of-type(1) {
+    width: 85px;
+}
+
+.inputTable th:nth-of-type(2), .inputTable  td:nth-of-type(2)  {
+    text-align: left;
+    width: 75px;
+}
+
+
+.inputTable td:last-of-type {
+
+text-align: right;
+}
+.appButton {
+       font-size: 0.75em;
+    font-weight: 700;
+    padding: 0.2em 0.5em;
+    background-color: #909090;
+    color: white;
+    border: 2px solid #404040;
+
+    
+
 }

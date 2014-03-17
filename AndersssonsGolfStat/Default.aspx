@@ -2,14 +2,14 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <asp:Panel ID="MessagePanel" runat="server" Visible="false" >
+    <asp:Panel ID="MessagePanel" runat="server" Visible="false" CssClass="msgPanel">
         <p><asp:Literal ID="MessageLiteral" runat="server" /></p>
         <asp:LinkButton ID="CloseButton" runat="server"  OnClientClick="return closeMessage();">[X]</asp:LinkButton>
     </asp:Panel>
     
+    <asp:ValidationSummary ID="ValidationSummary1" runat="server" CssClass="validationMsg" />
 
-
-    <asp:Panel ID="InsertRoundDiv" runat="server" Visible="false">
+    <asp:Panel ID="InsertRoundDiv" runat="server" Visible="false" >
                     
         <h2>Registrera ny runda</h2>
         
@@ -18,22 +18,24 @@
             InsertMethod="InsertFormView_InsertItem"
             DefaultMode="Insert"
             RenderOuterTable="false"
-            DataKeyNames="CustomerId">
+            DataKeyNames="CustomerId"
+            OnItemCommand="InsertFormView_ItemCommand"> 
 
             <InsertItemTemplate>
-                <table>
+                <table class="inputTable">
                     <tr>
                         <th>Datum</th>
                         <th>Bana</th>
-                        <th>GIR</th>
                         <th>FIR</th>
+                        <th>GIR</th>
+                        
                         <th>Puttar</th>
                         <th>Plikt</th>
                         <th>Slag</th>
                         <th></th>
                     </tr>
                     <tr>
-                        <td><asp:TextBox ID="Date" runat="server" Text='<%# BindItem.Date %>' MaxLength="10" /></td>
+                        <td><asp:TextBox ID="Date" runat="server" Text='<%# BindItem.DateString %>' MaxLength="10" /></td>
                         <td><asp:DropDownList ID="NameDropDownList" runat="server"
                                 ItemType="AndersssonsGolfStat.Model.Course"
                                 SelectMethod="CoursesListView_GetData"
@@ -45,8 +47,8 @@
                         <td><asp:TextBox ID="Penalties" runat="server" Text='<%# BindItem.Penalties %>' MaxLength="2" /></td>
                         <td><asp:TextBox ID="Strokes" runat="server" Text='<%# BindItem.Strokes %>'  MaxLength="3"/></td>
                         <td>
-                            <asp:LinkButton ID="InsertLinkButton" runat="server" CommandName="Insert" Text="Spara" />
-                            <asp:LinkButton ID="CancelLinkButton" runat="server" CommandName="Cancel" Text="Avbryt" />
+                            <asp:LinkButton ID="InsertLinkButton" runat="server" CommandName="Insert" Text="Spara" CssClass="appButton" />
+                            <asp:LinkButton ID="CancelLinkButton" runat="server" CommandName="Cancel" Text="Avbryt"  CssClass="appButton" />
                         </td>
                     </tr>
                 </table>
@@ -66,10 +68,11 @@
             DataKeyNames="RoundID" 
             DefaultMode="Edit" 
             SelectMethod="UpdateFormView_GetItem"
-            ViewStateMode="Enabled">
+            ViewStateMode="Enabled"
+            OnItemCommand="UpdateFormView_ItemCommand">
                         
             <EditItemTemplate>
-                <table>
+                <table class="inputTable">
                     <tr>
                         <th>Datum</th>
                         <th>Bana</th>
@@ -88,22 +91,22 @@
                                 DataTextField="Name"
                                 SelectedValue='<%# BindItem.Name %>' /></td>
                         <td><asp:TextBox ID="FIR" runat="server" Text='<%# BindItem.FIR %>' MaxLength="2" /></td>
-                        <td></td>
                         <td><asp:TextBox ID="GIR" runat="server" Text='<%# BindItem.GIR %>' MaxLength="2" /></td>
-                        <td></td>
                         <td><asp:TextBox ID="Putts" runat="server" Text='<%# BindItem.Putts %>' MaxLength="2" /></td>
-                        <td></td>
                         <td><asp:TextBox ID="Penalties" runat="server" Text='<%# BindItem.Penalties %>' MaxLength="2" /></td>
                         <td><asp:TextBox ID="Strokes" runat="server" Text='<%# BindItem.Strokes %>' MaxLength="3" /></td>
-                        <td></td>
                         <td><asp:HyperLink ID="CancelHyperLink" runat="server" Text="Avbryt" NavigateUrl="~/Default.aspx" CssClass="appButton" />
                             <asp:LinkButton ID="UpdateHyperLink" runat="server" CommandName="Update" Text="Spara" CssClass="appButton" />
-                            <asp:LinkButton ID="DeleteLinkButton" runat="server" CommandName="Delete" Text="Delete" CssClass="appButton" /></td>
+                            <asp:LinkButton ID="DeleteLinkButton" runat="server" CommandName="Delete" Text="Delete" CssClass="appButton" 
+                                OnClientClick='<%# String.Format("return confirm(\"Ta bort rundan spelad på {0} den {1}?\")",Item.Name, Item.Date.ToShortDateString()) %>' /></td>
                     </tr>
                 </table>
             </EditItemTemplate>
         </asp:FormView>
     </asp:Panel>
+
+    
+
 
     <h2>Mina Rundor</h2>
 

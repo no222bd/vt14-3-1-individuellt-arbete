@@ -56,8 +56,8 @@ namespace AndersssonsGolfStat.Model.DAL
         {
             using (var conn = CreateConnection())
             {
-                //try
-                //{
+                try
+                {
                     var cmd = new SqlCommand("app.usp_insertCourse", conn);
                     cmd.CommandType = CommandType.StoredProcedure;
 
@@ -65,16 +65,14 @@ namespace AndersssonsGolfStat.Model.DAL
                     cmd.Parameters.Add("@Par", SqlDbType.Int).Value = course.Par;
                     cmd.Parameters.Add("@Fairways", SqlDbType.Int).Value = course.Fairways;
 
-                    //cmd.Parameters.Add("@ContactID", SqlDbType.Int, 4).Direction = ParameterDirection.Output;
-
                     conn.Open();
 
                     cmd.ExecuteNonQuery();
-                //}
-                //catch
-                //{
-                //    throw new ApplicationException("Ett fel har uppstått vid skapandet av bana i databasen.");
-                //}
+                }
+                catch
+                {
+                    throw new ApplicationException("Ett fel har uppstått vid skapandet av banan i databasen.");
+                }
             }
         }
 
@@ -98,7 +96,7 @@ namespace AndersssonsGolfStat.Model.DAL
                 }
                 catch
                 {
-                    throw new ApplicationException("Ett fel har uppstått vid uppdateringen av bana i databasen.");
+                    throw new ApplicationException("Ett fel har uppstått vid uppdateringen av banan i databasen.");
                 }
             }
         }
@@ -140,7 +138,7 @@ namespace AndersssonsGolfStat.Model.DAL
                 }
                 catch
                 {
-                    throw new ApplicationException("Ett fel har uppstått i samband med hämtandet av en bana i databasen.");
+                    throw new ApplicationException("Ett fel har uppstått i samband med hämtandet av banan i databasen.");
                 }
             }
         }
@@ -162,11 +160,9 @@ namespace AndersssonsGolfStat.Model.DAL
                 }
                 catch
                 {
-                    throw new ApplicationException("Ett fel har uppstått i samband med borttagning av bana i databasen.");
+                    throw new ApplicationException("Ett fel har uppstått i samband med borttagning av banan i databasen.");
                 }
             }
         }
-    
-    
     }
 }

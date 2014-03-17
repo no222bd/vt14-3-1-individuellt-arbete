@@ -13,8 +13,8 @@ namespace AndersssonsGolfStat.Model.DAL
         {
             using (var conn = CreateConnection())
             {
-                //try
-                //{
+                try
+                {
                     var roundData = new List<RoundData>(100);
 
                     var cmd = new SqlCommand("app.usp_getRoundData", conn);
@@ -62,11 +62,11 @@ namespace AndersssonsGolfStat.Model.DAL
                     roundData.TrimExcess();
 
                     return roundData;
-                //}
-                //catch
-                //{
-                //    throw new ApplicationException("Ett fel har uppstått vid hämtning av tabellrader från databasen.");
-                //}
+                }
+                catch
+                {
+                    throw new ApplicationException("Ett fel har uppstått vid hämtning av rundor från databasen.");
+                }
             }
         }
 
@@ -114,7 +114,7 @@ namespace AndersssonsGolfStat.Model.DAL
                 }
                 catch
                 {
-                    throw new ApplicationException("Ett fel har uppstått i samband med hämtandet av en tabellrad i databasen.");
+                    throw new ApplicationException("Ett fel har uppstått i samband med hämtandet av rundan i databasen.");
                 }
             }
         }
@@ -123,9 +123,9 @@ namespace AndersssonsGolfStat.Model.DAL
         {
             using (var conn = CreateConnection())
             {
-                //try
-                //{
-                var cmd = new SqlCommand("[app].[usp_insertRoundData]", conn);
+                try
+                {
+                    var cmd = new SqlCommand("[app].[usp_insertRoundData]", conn);
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.Parameters.Add("@Date", SqlDbType.Date).Value = roundData.Date;
@@ -136,17 +136,14 @@ namespace AndersssonsGolfStat.Model.DAL
                     cmd.Parameters.Add("@Penalties", SqlDbType.TinyInt).Value = roundData.Penalties;
                     cmd.Parameters.Add("@Strokes", SqlDbType.TinyInt).Value = roundData.Strokes;
 
-                   
-
-
                     conn.Open();
 
                     cmd.ExecuteNonQuery();
-                //}
-                //catch
-                //{
-                //    throw new ApplicationException("Ett fel har uppstått vid skapandet av tabellrad i databasen.");
-                //}
+                }
+                catch
+                {
+                    throw new ApplicationException("Ett fel har uppstått vid skapandet av rundan i databasen.");
+                }
             }
         }
 
@@ -174,81 +171,78 @@ namespace AndersssonsGolfStat.Model.DAL
                 }
                 catch
                 {
-                    throw new ApplicationException("Ett fel har uppstått vid uppdateringen av tabellrad i databasen.");
+                    throw new ApplicationException("Ett fel har uppstått vid uppdateringen av rundan i databasen.");
                 }
             }
         }
 
+        //public IEnumerable<RoundData> GetRoundDataPageWise(int maximumRows, int startRowIndex, out int totalRowCount)
+        //{
+        //    using (var conn = CreateConnection())
+        //    {
+        //        //try
+        //        //{
+        //        var roundData = new List<RoundData>(100);
 
+        //        var cmd = new SqlCommand("app.usp_getRoundDataPageWise", conn);
+        //        cmd.CommandType = CommandType.StoredProcedure;
 
-        public IEnumerable<RoundData> GetRoundDataPageWise(int maximumRows, int startRowIndex, out int totalRowCount)
-        {
-            using (var conn = CreateConnection())
-            {
-                //try
-                //{
-                var roundData = new List<RoundData>(100);
-
-                var cmd = new SqlCommand("app.usp_getRoundDataPageWise", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.Add("@StartRowIndex", SqlDbType.Int).Value = startRowIndex;
-                cmd.Parameters.Add("@PageSize", SqlDbType.Int).Value = maximumRows;
+        //        cmd.Parameters.Add("@StartRowIndex", SqlDbType.Int).Value = startRowIndex;
+        //        cmd.Parameters.Add("@PageSize", SqlDbType.Int).Value = maximumRows;
                 
-                cmd.Parameters.Add("@RowCount", SqlDbType.Int).Direction = ParameterDirection.Output;
+        //        cmd.Parameters.Add("@RowCount", SqlDbType.Int).Direction = ParameterDirection.Output;
 
 
-                conn.Open();
+        //        conn.Open();
 
-                using (var reader = cmd.ExecuteReader())
-                {
-                    var roundIdIndex = reader.GetOrdinal("RoundID");
-                    var dateIndex = reader.GetOrdinal("Date");
-                    var nameIndex = reader.GetOrdinal("Name");
-                    var girIndex = reader.GetOrdinal("GIR");
-                    var girProIndex = reader.GetOrdinal("GIRpro");
-                    var firIndex = reader.GetOrdinal("FIR");
-                    var firProIndex = reader.GetOrdinal("FIRpro");
-                    var puttsIndex = reader.GetOrdinal("Putts");
-                    var puttsAvgIndex = reader.GetOrdinal("Puttsavg");
-                    var penaltiesIndex = reader.GetOrdinal("Penalties");
-                    var strokesIndex = reader.GetOrdinal("Strokes");
-                    var bruttoIndex = reader.GetOrdinal("Brutto");
-                    var fairwaysIndex = reader.GetOrdinal("Fairways");
+        //        using (var reader = cmd.ExecuteReader())
+        //        {
+        //            var roundIdIndex = reader.GetOrdinal("RoundID");
+        //            var dateIndex = reader.GetOrdinal("Date");
+        //            var nameIndex = reader.GetOrdinal("Name");
+        //            var girIndex = reader.GetOrdinal("GIR");
+        //            var girProIndex = reader.GetOrdinal("GIRpro");
+        //            var firIndex = reader.GetOrdinal("FIR");
+        //            var firProIndex = reader.GetOrdinal("FIRpro");
+        //            var puttsIndex = reader.GetOrdinal("Putts");
+        //            var puttsAvgIndex = reader.GetOrdinal("Puttsavg");
+        //            var penaltiesIndex = reader.GetOrdinal("Penalties");
+        //            var strokesIndex = reader.GetOrdinal("Strokes");
+        //            var bruttoIndex = reader.GetOrdinal("Brutto");
+        //            var fairwaysIndex = reader.GetOrdinal("Fairways");
 
-                    while (reader.Read())
-                    {
-                        roundData.Add(new RoundData
-                        {
-                            RoundID = reader.GetInt32(roundIdIndex),
-                            Date = reader.GetDateTime(dateIndex),
-                            Name = reader.GetString(nameIndex),
-                            GIR = reader.GetByte(girIndex),
-                            GIRpro = reader.GetFloat(girProIndex),
-                            FIR = reader.GetByte(firIndex),
-                            FIRpro = reader.GetFloat(firProIndex),
-                            Putts = reader.GetByte(puttsIndex),
-                            Puttsavg = reader.GetFloat(puttsAvgIndex),
-                            Penalties = reader.GetByte(penaltiesIndex),
-                            Strokes = reader.GetByte(strokesIndex),
-                            Brutto = reader.GetInt32(bruttoIndex),
-                            Fairways = reader.GetByte(fairwaysIndex)
-                        });
-                    }
-                }
+        //            while (reader.Read())
+        //            {
+        //                roundData.Add(new RoundData
+        //                {
+        //                    RoundID = reader.GetInt32(roundIdIndex),
+        //                    Date = reader.GetDateTime(dateIndex),
+        //                    Name = reader.GetString(nameIndex),
+        //                    GIR = reader.GetByte(girIndex),
+        //                    GIRpro = reader.GetFloat(girProIndex),
+        //                    FIR = reader.GetByte(firIndex),
+        //                    FIRpro = reader.GetFloat(firProIndex),
+        //                    Putts = reader.GetByte(puttsIndex),
+        //                    Puttsavg = reader.GetFloat(puttsAvgIndex),
+        //                    Penalties = reader.GetByte(penaltiesIndex),
+        //                    Strokes = reader.GetByte(strokesIndex),
+        //                    Brutto = reader.GetInt32(bruttoIndex),
+        //                    Fairways = reader.GetByte(fairwaysIndex)
+        //                });
+        //            }
+        //        }
 
-                totalRowCount = (int)cmd.Parameters["@RowCount"].Value;
+        //        totalRowCount = (int)cmd.Parameters["@RowCount"].Value;
 
-                roundData.TrimExcess();
+        //        roundData.TrimExcess();
 
-                return roundData;
-                //}
-                //catch
-                //{
-                //    throw new ApplicationException("Ett fel har uppstått vid hämtning av tabellrader från databasen.");
-                //}
-            }
-        }
-
+        //        return roundData;
+        //        //}
+        //        //catch
+        //        //{
+        //        //    throw new ApplicationException("Ett fel har uppstått vid hämtning av tabellrader från databasen.");
+        //        //}
+        //    }
+        //}
     }
 }

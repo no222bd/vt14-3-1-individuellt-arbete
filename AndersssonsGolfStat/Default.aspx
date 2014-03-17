@@ -138,7 +138,7 @@
                     <asp:PlaceHolder ID="itemPlaceHolder" runat="server" />
                 </tbody>
             </table>
-            <div id="pager">
+            <div class="pager">
                 <asp:DataPager ID="DataPager1" runat="server" PageSize="10">
                     <Fields>
                         <asp:NextPreviousPagerField ShowNextPageButton="False" RenderDisabledButtonsAsLabels="False" PreviousPageText="<" ButtonCssClass="pagingButtons" />

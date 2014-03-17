@@ -20,7 +20,11 @@ namespace AndersssonsGolfStat
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (Session["CourseInsert"] != null)
+            {
+                ShowMessage(Session["CourseInsert"].ToString());
+                Session.Remove("CourseInsert");
+            }
         }
 
         public IEnumerable<Course> CourseListView_GetData()
@@ -43,8 +47,8 @@ namespace AndersssonsGolfStat
                 try
                 {
                     Service.InsertCourse(course);
-
-                    ShowMessage(String.Format("Sparandet av banan {0} lyckades.", course.Name));
+                    Session["CourseInsert"] = String.Format("Sparandet av banan {0} lyckades.", course.Name);
+                    Response.Redirect("~/Courses.aspx");
                 }
                 catch (Exception ex)
                 {
@@ -118,6 +122,23 @@ namespace AndersssonsGolfStat
         {
             MessageLiteral.Text = msg;
             MessagePanel.Visible = true;
+        }
+
+        protected void UpdateFormView_ItemCommand(object sender, FormViewCommandEventArgs e)
+        {
+            if (e.CommandName == "Update")
+                UpdatePanel.Visible = true;
+        }
+
+        protected void InsertFormView_ItemCommand(object sender, FormViewCommandEventArgs e)
+        {
+            if (e.CommandName == "Insert")
+                InsertPanel.Visible = true;
+        }
+        
+        public IEnumerable<Course> CourseListView_GetDataPageWise(int maximumRows, int startRowIndex, out int totalRowCount)
+        {
+            return Service.GetCoursesPageWise(maximumRows, startRowIndex, out totalRowCount);
         }
     }
 }

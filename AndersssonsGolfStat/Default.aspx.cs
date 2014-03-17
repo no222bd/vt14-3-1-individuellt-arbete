@@ -20,15 +20,11 @@ namespace AndersssonsGolfStat
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            //if (Session["Insert"] as bool? == true)
-            //{
-            //    Session.Clear();
-            //    InsertRoundDiv.Visible = true;
-                
-            //}
-
-            //if (Session["Update"] as bool? == true)
-            //    UpdateRoundDiv.Visible = true;
+            if(Session["RoundInsert"] != null)
+            {
+                ShowMessage(Session["RoundInsert"].ToString());
+                Session.Remove("RoundInsert");
+            }
         }
 
         // Hämta lista med banor för att populera drop-down menyn
@@ -75,9 +71,8 @@ namespace AndersssonsGolfStat
                 try
                 {
                     Service.InsertRoundData(roundData);
-                    
-                    ShowMessage(String.Format("Sparandet av rundan spelad den {0} på {1} lyckades.", roundData.Date.ToShortDateString(), roundData.Name));
-                    
+                    Session["RoundInsert"] = String.Format("Sparandet av rundan spelad den {0} på {1} lyckades.", roundData.Date.ToShortDateString(), roundData.Name);
+                    Response.Redirect("~/");
                 }
                 catch (Exception ex)
                 {

@@ -52,6 +52,57 @@ namespace AndersssonsGolfStat.Model.DAL
             }
         }
 
+
+        public IEnumerable<Course> GetCoursesPageWise(int maximumRows, int startRowIndex, out int totalRowCount)
+        {
+            using (var conn = CreateConnection())
+            {
+                try
+                {
+                    var courses = new List<Course>(100);
+
+                    var cmd = new SqlCommand("app.usp_getCoursesPageWise", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@StartRowIndex", SqlDbType.Int).Value = startRowIndex;
+                    cmd.Parameters.Add("@PageSize", SqlDbType.Int).Value = maximumRows;
+                    
+                    cmd.Parameters.Add("@RowCount", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                    conn.Open();
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        var courseIdIndex = reader.GetOrdinal("CourseID");
+                        var nameIndex = reader.GetOrdinal("Name");
+                        var parIndex = reader.GetOrdinal("Par");
+                        var fairwaysIndex = reader.GetOrdinal("Fairways");
+
+                        while (reader.Read())
+                        {
+                            courses.Add(new Course
+                            {
+                                CourseID = reader.GetInt32(courseIdIndex),
+                                Name = reader.GetString(nameIndex),
+                                Par = reader.GetByte(parIndex),
+                                Fairways = reader.GetByte(fairwaysIndex)
+                            });
+                        }
+                    }
+
+                    totalRowCount = (int)cmd.Parameters["@RowCount"].Value;
+
+                    courses.TrimExcess();
+
+                    return courses;
+                }
+                catch
+                {
+                    throw new ApplicationException("Ett fel har uppstått vid hämtning av banor sidvis från databasen.");
+                }
+            }
+        }
+
         public void InsertCourse(Course course)
         {
             using (var conn = CreateConnection())

@@ -82,6 +82,11 @@ namespace AndersssonsGolfStat.Model
             return CourseDAL.GetCourses();
         }
 
+        public IEnumerable<Course> GetCoursesPageWise(int maximumRowsint, int startRowIndex, out int totalRowCount)
+        {
+            return CourseDAL.GetCoursesPageWise(maximumRowsint, startRowIndex, out totalRowCount);
+        }
+
         public Course GetCourseById(int courseId)
         {
             return CourseDAL.GetCourseById(courseId);

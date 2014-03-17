@@ -168,6 +168,45 @@ tbody tr {
     border-bottom:1px solid  #ccc;
 }
 
+
+.inputTable {
+    border: 1px solid #ccc;
+    background-color: lightgreen;
+
+
+}
+
+
+
+.inputTable input{
+    width:25px;
+    text-align: center;
+}
+
+
+.inputTable td:nth-of-type(1) input{
+    width:75px;
+}
+
+.inputTable select {
+    width:300px;
+}
+
+.inputTable th:nth-of-type(1) {
+    width: 85px;
+}
+
+.inputTable th:nth-of-type(2), .inputTable  td:nth-of-type(2)  {
+    text-align: left;
+    width: 75px;
+}
+
+
+.inputTable td:last-of-type {
+
+text-align: right;
+}
+
 #RoundDataTable tbody tr:hover {
     background-color:lightgreen;
 }
@@ -177,13 +216,53 @@ tbody tr {
     width: 25%;
 }
 
-#pager {
+
+
+
+#courseTable th:first-of-type, #courseTable td:first-of-type{
+    text-align: left;
+    width: 500px;
+}
+
+#courseTable th:last-of-type, #courseTable td:last-of-type{
+    width:100px;
+}
+
+
+
+#inputCourseTable th:nth-of-type(1), .inputTable  td:nth-of-type(1)  {
+    text-align: left;
+    width: 75px;
+}
+
+
+
+#inputCourseTable td:first-of-type input {
+    width: 300px;
+}   
+
+#inputCourseTable td:nth-of-type(2) input, #inputCourseTable th:nth-of-type(2) {
+    width: 75px;
+    text-align: center;
+} 
+#inputCourseTable td:nth-of-type(3) input, #inputCourseTable th:nth-of-type(3)  {
+    width: 75px;
+    text-align: center;
+} 
+
+
+
+.pager {
     margin-top: 0.8em;
     text-align: center;
 }
 
-#pager a:hover {
+.pager a:hover {
     background-color: lightgreen;
+}
+
+#pager {
+    margin-bottom: 1em;
 }
 
 .newButton {
@@ -234,45 +313,6 @@ padding:0.25em 0;
     float: left;
 }
 
-.inputTable {
-    border: 1px solid #ccc;
-    background-color: lightgreen;
-
-
-}
-
-
-
-.inputTable input{
-    width:25px;
-}
-
-.inputTable td{
-    /*padding-left:0;
-    padding-right:0;*/
-}
-.inputTable td:nth-of-type(1) input{
-    width:75px;
-}
-
-.inputTable select {
-    width:300px;
-}
-
-.inputTable th:nth-of-type(1) {
-    width: 85px;
-}
-
-.inputTable th:nth-of-type(2), .inputTable  td:nth-of-type(2)  {
-    text-align: left;
-    width: 75px;
-}
-
-
-.inputTable td:last-of-type {
-
-text-align: right;
-}
 .appButton {
        font-size: 0.75em;
     font-weight: 700;

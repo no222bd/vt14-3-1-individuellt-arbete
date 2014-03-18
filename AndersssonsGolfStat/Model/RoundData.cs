@@ -6,6 +6,7 @@ using System.Web;
 
 namespace AndersssonsGolfStat.Model
 {
+    // Klass som representerar en spelad golfrunda. Medlemmarnas värden återfinns in tabellerna Round och RoundStat 
     public class RoundData
     {
         public int RoundID { get; set; }
@@ -14,7 +15,7 @@ namespace AndersssonsGolfStat.Model
                 
         public string Name { get; set; }
 
-
+        // Konverterar inmatad sträng till typen DateTime och vice versa.
         [Required(ErrorMessage = "- Ett Datum måste anges.")]
         [RegularExpression(@"^(19|20)[0-9][0-9]-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$", ErrorMessage = "- Datum skall anges i formatet ÅÅÅÅ-MM-DD.")]
         public string DateString
@@ -26,13 +27,14 @@ namespace AndersssonsGolfStat.Model
             set
             {
                 DateTime temp;
+                
+                // Försöker konvertera sträng till DateTime objekt
                 if(DateTime.TryParse(value, out temp))
                 {
                     Date = temp;
                 }
             }
         }
-
 
         [Required(ErrorMessage = "- Antalet FairwayInRegulation måste anges.")]
         [RegularExpression(@"^((0|1)[0-8])|[0-9]$", ErrorMessage = "- Antal FairwayInRegulation kan max vara 18.")]
@@ -63,7 +65,5 @@ namespace AndersssonsGolfStat.Model
         public int Brutto { get; set; }
         
         public byte Fairways { get; set; }
-
-        
     }
 }

@@ -6,9 +6,11 @@ using System.Linq;
 using System.Web;
 
 namespace AndersssonsGolfStat.Model.DAL
-{
+{   
+    // Dataåtkomstklass som tillhandahåller metoder för interaktion med databastabellen Course 
     public class CourseDAL:DALBase
     {
+        // Returnerar en lista innehållandes samtliga banor i form av Course objekt
         public IEnumerable<Course> GetCourses()
         {
             using (var conn = CreateConnection())
@@ -29,6 +31,7 @@ namespace AndersssonsGolfStat.Model.DAL
                         var parIndex = reader.GetOrdinal("Par");
                         var fairwaysIndex = reader.GetOrdinal("Fairways");
 
+                        // Populerar listan med Course objekt
                         while (reader.Read())
                         {
                             courses.Add(new Course
@@ -41,6 +44,7 @@ namespace AndersssonsGolfStat.Model.DAL
                         }
                     }
 
+                    // Tar bort icke nyttjade platser från listan
                     courses.TrimExcess();
 
                     return courses;
@@ -52,7 +56,7 @@ namespace AndersssonsGolfStat.Model.DAL
             }
         }
 
-
+        // Returnerar en lista men Course objekt basert på vilken sida i pageneringen som skall visas
         public IEnumerable<Course> GetCoursesPageWise(int maximumRows, int startRowIndex, out int totalRowCount)
         {
             using (var conn = CreateConnection())
@@ -64,9 +68,11 @@ namespace AndersssonsGolfStat.Model.DAL
                     var cmd = new SqlCommand("app.usp_getCoursesPageWise", conn);
                     cmd.CommandType = CommandType.StoredProcedure;
 
+                    // Anger parametrarna för sidindex samt sidstorlek
                     cmd.Parameters.Add("@StartRowIndex", SqlDbType.Int).Value = startRowIndex;
                     cmd.Parameters.Add("@PageSize", SqlDbType.Int).Value = maximumRows;
                     
+                    // Anger OUT parametern för totala antalet poster
                     cmd.Parameters.Add("@RowCount", SqlDbType.Int).Direction = ParameterDirection.Output;
 
                     conn.Open();
@@ -90,6 +96,7 @@ namespace AndersssonsGolfStat.Model.DAL
                         }
                     }
 
+                    // Tilldelar variabeln totalRowCount "retur"-värdet från den lagrade proceduren
                     totalRowCount = (int)cmd.Parameters["@RowCount"].Value;
 
                     courses.TrimExcess();
@@ -103,6 +110,7 @@ namespace AndersssonsGolfStat.Model.DAL
             }
         }
 
+        // Lagrar en ny bana i tabellen Course
         public void InsertCourse(Course course)
         {
             using (var conn = CreateConnection())
@@ -127,6 +135,7 @@ namespace AndersssonsGolfStat.Model.DAL
             }
         }
 
+        // Uppdaterar en bana i tabellen Course
         public void UpdateCourse(Course course)
         {
             using (var conn = CreateConnection())
@@ -152,7 +161,7 @@ namespace AndersssonsGolfStat.Model.DAL
             }
         }
 
-
+        // Hämtar med hjälp av CourseID en bana från tabellen Course
         public Course GetCourseById(int courseId)
         {
             using (var conn = CreateConnection())
@@ -194,6 +203,7 @@ namespace AndersssonsGolfStat.Model.DAL
             }
         }
 
+        // Tar bort en banan ur tabellen Course
         public void DeleteCourse(int courseId)
         {
             using (var conn = CreateConnection())

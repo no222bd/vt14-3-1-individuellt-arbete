@@ -5,12 +5,13 @@ using System.Web;
 
 namespace AndersssonsGolfStat.Model
 {
+    // Klass innehållandes statistik över spelade rundor
     public class Statistics
     {
         // Ingen validering p.g.a. ingen data matas in av användaren
         public readonly int latestRounds = 3;
 
-        // Properties from RoundData object
+        // Egenskaper som initialiseras med hjälp av ett RoundData objekt
         public int Rounds { get; set; }
 
         public int GIR { get; set; }
@@ -31,7 +32,7 @@ namespace AndersssonsGolfStat.Model
         public int Brutto { get; set; }
         public int latestBrutto { get; set; }
 
-        // Calculated properties
+        // Beräknade egenskaper
         public int Holes { get { return Rounds * 18; } }
         public float GIRpro { get { return (float)GIR / Holes; } }
         public float GIRavg { get { return (float)GIR / Rounds; } }
@@ -57,13 +58,13 @@ namespace AndersssonsGolfStat.Model
 
         private void Initialize(IEnumerable<RoundData> roundData)
         {
-            //Sorterar på datum i fallande ordning
+            // Sorterar listans innehåll på datum i fallande ordning
             var sortedData = roundData.OrderByDescending(c => c.Date);
 
-            //Kör igenom och lägg till värde till respektive egenskap
-
+            // Sätter värdet för antalet spelade rundor
             Rounds = sortedData.Count();
-            
+
+            // Itererar igenom och addera värde till respektive egenskap
             foreach (var row in sortedData)
             {
                 GIR += row.GIR;
@@ -75,8 +76,10 @@ namespace AndersssonsGolfStat.Model
                 Brutto += row.Brutto;
             }
 
+            // Skapa lista innehållande endast de senaste rundorna
             var sortedDataTop = sortedData.Take(latestRounds);
-            
+
+            //Itererar igenom och addera värde till respektive egenskap
             foreach (var row in sortedDataTop)
             {
                 latestGIR += row.GIR;

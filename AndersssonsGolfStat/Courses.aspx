@@ -2,13 +2,16 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     
+    <%--Statusmeddelande--%>
     <asp:Panel ID="MessagePanel" runat="server" Visible="false" CssClass="msgPanel">
         <p><asp:Literal ID="MessageLiteral" runat="server" /></p>
         <asp:LinkButton ID="CloseButton" runat="server"  OnClientClick="return closeMessage();">[X]</asp:LinkButton>
     </asp:Panel>
     
+    <%--Valideringsresultat--%>
     <asp:ValidationSummary ID="ValidationSummary1" runat="server" CssClass="validationMsg" />
              
+    <%--Formulär för registrering av ny bana--%>
     <asp:Panel ID="InsertPanel" runat="server" Visible="false">
 
         <h2>Registrera ny bana</h2>
@@ -50,6 +53,7 @@
         </asp:FormView>
     </asp:Panel>
 
+    <%--Formulär för uppdatering av bana--%>
     <asp:Panel ID="UpdatePanel" runat="server" Visible="false">
 
         <h2>Redigera bana</h2>
@@ -94,17 +98,17 @@
                 </table>
             </EditItemTemplate>
         </asp:FormView>
-    
     </asp:Panel>
 
-      <h2>Registrerade banor</h2>
+    <h2>Registrerade banor</h2>
+
+    <%--Tabell innehållandes data om spelade rundor--%>
 
     <asp:ListView ID="CourseListView" runat="server"
         ItemType="AndersssonsGolfStat.Model.Course"
         SelectMethod="CourseListView_GetDataPageWise"
         DataKeyNames="CourseID"
-        OnItemCommand="CourseListView_ItemCommand"
-         >
+        OnItemCommand="CourseListView_ItemCommand">
 
         <LayoutTemplate>
             <table id="courseTable">
@@ -138,7 +142,4 @@
             </tr>
         </ItemTemplate>
     </asp:ListView>
-
-    
-
 </asp:Content>

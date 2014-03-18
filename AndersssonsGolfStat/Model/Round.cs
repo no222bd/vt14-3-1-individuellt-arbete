@@ -7,8 +7,8 @@ using System.Web;
 namespace AndersssonsGolfStat.Model
 {
     public class Round
-    {
-        // Ingen validering p.g.a. ingen data matas in av användaren
+    {   // Klass som motsvarar en rad i databastabellen Round
+        // Inga valideringsregler p.g.a. egenskaperna ej sätts av anvädaren
         public int RoundID { get; set; }
         public int CourseID { get; set; }
         public DateTime Date { get; set; }

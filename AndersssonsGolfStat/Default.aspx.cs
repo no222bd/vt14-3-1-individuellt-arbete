@@ -11,6 +11,7 @@ namespace AndersssonsGolfStat
 {
     public partial class Default : System.Web.UI.Page
     {
+        // Lazy initialization
         private Service _service;
 
         private Service Service
@@ -18,6 +19,7 @@ namespace AndersssonsGolfStat
             get { return _service ?? (_service = new Service()); }
         }
 
+        // Undersöker om ny registrering av runda har gjort varpå ett statusmeddelande visas
         protected void Page_Load(object sender, EventArgs e)
         {
             if(Session["RoundInsert"] != null)
@@ -28,7 +30,6 @@ namespace AndersssonsGolfStat
         }
 
         // Hämta lista med banor för att populera drop-down menyn
-
         public IEnumerable<Course> CoursesListView_GetData()
         {
             try
@@ -42,29 +43,22 @@ namespace AndersssonsGolfStat
             }
         }
 
-        // Visar update- eller insertformuläret beroende på vilken knapp som klickats på.
+        // Visa update- eller insertformuläret beroende på vilken knapp som klickats på.
         protected void RoundDataListView_ItemCommand(object sender, ListViewCommandEventArgs e)
         {
             if (e.CommandName == "New")
             {
-              
                 InsertRoundDiv.Visible = true;
-                
-
             }
             else if (e.CommandName == "Edit")
             {
-                
                 UpdateRoundDiv.Visible = true;
-                
-
             }
         }
 
         // Validerar och skickar sedan nyskapad runda till databasen via en metod i Service-klassen.
         public void InsertFormView_InsertItem(RoundData roundData)
         {
-            Session.Remove("Insert");
             if (ModelState.IsValid)
             {
                 
@@ -72,6 +66,8 @@ namespace AndersssonsGolfStat
                 {
                     Service.InsertRoundData(roundData);
                     Session["RoundInsert"] = String.Format("Sparandet av rundan spelad den {0} på {1} lyckades.", roundData.Date.ToShortDateString(), roundData.Name);
+                    
+                    // Gör en get av sidan för att förhindra dubbelpostning
                     Response.Redirect("~/");
                 }
                 catch (Exception ex)
@@ -82,13 +78,12 @@ namespace AndersssonsGolfStat
         }
 
         // Validerar och skickar uppdaterad runda till databasen via en metod i Service-klassen.
-
         public void UpdateFormView_UpdateItem(int RoundID)
         {
             try
             {
+                //Hämtar och kontrollerar att aktuell runda fortfarande existerar
                 var roundData = Service.GetRoundDataByRoundId(RoundID);
-
 
                 if (roundData == null)
                 {
@@ -96,6 +91,7 @@ namespace AndersssonsGolfStat
                     return;
                 }
 
+                // Skapar ett RoundData objekt med uppgifterna från formuläret samt utför validering
                 if (TryUpdateModel(roundData))
                 {
                     Service.UpdateRoundData(roundData);
@@ -110,7 +106,6 @@ namespace AndersssonsGolfStat
         }
 
         // Hämtar en runda från databasen för att fylla fälten i update-formuläret.
-
         public RoundData UpdateFormView_GetItem([QueryString("RID")]int RoundID)
         {
             try
@@ -125,7 +120,6 @@ namespace AndersssonsGolfStat
         }
 
         // Tar bort en runda från databasen via en metod i Service-klassen.
-
         public void UpdateFormView_DeleteItem(int roundid)
         {
             try
@@ -140,26 +134,26 @@ namespace AndersssonsGolfStat
         }
 
         // Visar meddelande efter lyckad operation
-
         private void ShowMessage(string msg)
         {
             MessageLiteral.Text = msg;
             MessagePanel.Visible = true;
         }
 
-        // Hämtar alla rundor från databasen för att beräkna statistik samt delar sedan upp listan av objekt för att visas sidvis.
-
+        // Hämtar alla rundor från databasen för att beräkna statistik samt delar sedan upp listan av objekt för att visas sidvis i ListView-kontrollen
         public IEnumerable<RoundData> RoundDataListView_GetDataPageWise(int maximumRows, int startRowIndex, out int totalRowCount)
         {
             var roundCollection = Service.GetRoundData();
             var stats = new Statistics(roundCollection);
 
+            // Visa statistik över alla spelade rundor
             DisplayStatistics(stats);
 
+            // Hämtar ut endast de rundor som skall visas beroende på sida och sidstorlek
             return RoundDataPage(roundCollection, maximumRows, startRowIndex, out totalRowCount);
         }
 
-        // Metod för att hämta delar av listan av RoundData
+        // Metod för att plocka ut en sida från en lista med RoundData objekt
         public IEnumerable<RoundData> RoundDataPage( IEnumerable<RoundData> roundData,int maximumRows, int startRowIndex, out int totalRowCount)
         {
             totalRowCount = roundData.Count();
@@ -168,7 +162,6 @@ namespace AndersssonsGolfStat
         }
 
         // Visar data från klassen Statistics
-
         public void DisplayStatistics(Statistics stats)
         {
             // Holes & Rounds
@@ -208,12 +201,14 @@ namespace AndersssonsGolfStat
             LatestBruttoavgLiteral.Text = stats.latestBruttoavg.ToString("F0");
         }
 
+        // Visar Insert-formuläret efter postback då validering misslyckats
         protected void InsertFormView_ItemCommand(object sender, FormViewCommandEventArgs e)
         {
             if(e.CommandName == "Insert")
                 InsertRoundDiv.Visible = true;
         }
 
+        // Visar Update-formuläret efter postback då validering misslyckats
         protected void UpdateFormView_ItemCommand(object sender, FormViewCommandEventArgs e)
         {
             if (e.CommandName == "Update")

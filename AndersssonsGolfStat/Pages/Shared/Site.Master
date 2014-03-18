@@ -11,29 +11,31 @@
 </head>
 <body>
     <div id="container">
+        <%--Sidhuvud--%>
         <header>
             <h1>Anderssons GolfStat</h1>
         </header>
-        
+        <%--Huvudmeny--%>
         <nav>
             <ul>
                 <li><a href="Default.aspx">Rundor & Statistik</a></li>
                 <li><a href="Courses.aspx">Banor</a></li>
             </ul>
         </nav>
-        
+        <%--Innehåll--%>
         <div id="content">
             <form id="form1" runat="server">
                 <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
             </asp:ContentPlaceHolder>
             </form>
         </div><!-- content -->
-
+        <%--Sidfot--%>
         <footer>
             <p>Nils-Jakob Olsson / no222bd / WP2012 Distans</p>
         </footer>
     </div><!-- container -->
 
+    <%--JavaScript för stängande av meddelanderuta--%>
     <script type="text/javascript">
         function closeMessage() {
             var element = document.getElementById("MessagePanel");

@@ -2,13 +2,16 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
+    <%--Statusmeddelande--%>
     <asp:Panel ID="MessagePanel" runat="server" Visible="false" CssClass="msgPanel">
         <p><asp:Literal ID="MessageLiteral" runat="server" /></p>
         <asp:LinkButton ID="CloseButton" runat="server"  OnClientClick="return closeMessage();">[X]</asp:LinkButton>
     </asp:Panel>
     
+    <%--Valideringsresultat--%>
     <asp:ValidationSummary ID="ValidationSummary1" runat="server" CssClass="validationMsg" />
 
+    <%--Formulär för registrering av ny runda--%>
     <asp:Panel ID="InsertRoundDiv" runat="server" Visible="false" >
                     
         <h2>Registrera ny runda</h2>
@@ -74,6 +77,7 @@
         </asp:FormView>
     </asp:Panel>
 
+    <%--Formulär för uppdatering av runda--%>
     <asp:Panel ID="UpdateRoundDiv" runat="server" Visible="false">
                     
         <h2>Redigera runda</h2>
@@ -147,6 +151,8 @@
 
     <h2>Mina Rundor</h2>
 
+    <%--Tabell över spelade rundor--%>
+
     <asp:ListView ID="RoundDataListView" runat="server"
         ItemType="AndersssonsGolfStat.Model.RoundData"
         SelectMethod="RoundDataListView_GetDataPageWise"
@@ -206,6 +212,8 @@
         </ItemTemplate>
     </asp:ListView>
 
+    <%--Statistik över spelade rundor--%>
+    
     <h2>Min Statistik</h2>
 
     <div class="statBox">

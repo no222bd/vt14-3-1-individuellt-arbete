@@ -128,9 +128,9 @@ namespace AndersssonsGolfStat.Model.DAL
 
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch(Exception ex)
                 {
-                    throw new ApplicationException("Ett fel har uppstått vid skapandet av banan i databasen.");
+                    throw new ApplicationException(ex.Message); //"Ett fel har uppstått vid skapandet av banan i databasen.",
                 }
             }
         }
@@ -154,9 +154,9 @@ namespace AndersssonsGolfStat.Model.DAL
 
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch(Exception ex)
                 {
-                    throw new ApplicationException("Ett fel har uppstått vid uppdateringen av banan i databasen.");
+                    throw new ApplicationException(ex.Message);//"Ett fel har uppstått vid uppdateringen av banan i databasen.", 
                 }
             }
         }

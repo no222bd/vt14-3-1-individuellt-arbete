@@ -58,7 +58,7 @@ namespace AndersssonsGolfStat
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError(String.Empty, ex);
+                    ModelState.AddModelError(String.Empty, ex.Message);
                 }
             }
         }
@@ -95,7 +95,7 @@ namespace AndersssonsGolfStat
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(String.Empty, ex);
+                ModelState.AddModelError(String.Empty, ex.Message);
             }
         }
 
